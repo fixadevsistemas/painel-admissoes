@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #f2f0ec;
+  --surface: #ffffff;
+  --surface-2: #f8f7f4;
+  --ink: #1b1f23;
+  --ink-2: #5b6167;
+  --muted: #8b8f85;
+  --border: rgba(27, 31, 35, 0.11);
+  --border-strong: rgba(27, 31, 35, 0.18);
+  --accent: #2a78d6;
+  --accent-ink: #ffffff;
+  --accent-wash: #e8f0fb;
+  --good: #0ca30c;
+  --warning: #fab219;
+  --serious: #ec835a;
+  --critical: #d03b3b;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    --bg: #121314;
+    --surface: #1a1c1e;
+    --surface-2: #1f2224;
+    --ink: #f2f1ee;
+    --ink-2: #b7bcc0;
+    --muted: #83898d;
+    --border: rgba(255, 255, 255, 0.1);
+    --border-strong: rgba(255, 255, 255, 0.18);
+    --accent: #4a90e0;
+    --accent-ink: #0b1420;
+    --accent-wash: #1c2a3c;
+    --good: #1fc21f;
+    --warning: #f5b93e;
+    --serious: #f0916b;
+    --critical: #e66767;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #121314;
+  --surface: #1a1c1e;
+  --surface-2: #1f2224;
+  --ink: #f2f1ee;
+  --ink-2: #b7bcc0;
+  --muted: #83898d;
+  --border: rgba(255, 255, 255, 0.1);
+  --border-strong: rgba(255, 255, 255, 0.18);
+  --accent: #4a90e0;
+  --accent-ink: #0b1420;
+  --accent-wash: #1c2a3c;
+  --good: #1fc21f;
+  --warning: #f5b93e;
+  --serious: #f0916b;
+  --critical: #e66767;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-wash: var(--accent-wash);
+  --color-good: var(--good);
+  --color-warning: var(--warning);
+  --color-serious: var(--serious);
+  --color-critical: var(--critical);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
