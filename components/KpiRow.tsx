@@ -17,7 +17,10 @@ export function KpiRow({
 }: KpiRowProps) {
   return (
     <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-      <div className="flex flex-col gap-1.5 rounded-xl border border-border bg-surface p-4">
+      <div
+        className="flex flex-col gap-1.5 rounded-xl border border-border bg-surface p-4 border-t-[3px]"
+        style={{ borderTopColor: "var(--cat-1)" }}
+      >
         <span className="text-xs font-semibold text-ink-2">Em processo</span>
         <div className="flex items-baseline gap-2">
           <span className="text-3xl font-extrabold tracking-tight tabular-nums">
@@ -32,7 +35,10 @@ export function KpiRow({
         </span>
       </div>
 
-      <div className="flex flex-col gap-1.5 rounded-xl border border-border bg-surface p-4">
+      <div
+        className="flex flex-col gap-1.5 rounded-xl border border-border bg-surface p-4 border-t-[3px]"
+        style={{ borderTopColor: "var(--good)" }}
+      >
         <span className="text-xs font-semibold text-ink-2">
           Disponíveis na obra
         </span>
@@ -45,7 +51,10 @@ export function KpiRow({
         <span className="text-xs text-muted">funil completo</span>
       </div>
 
-      <div className="flex flex-col gap-1.5 rounded-xl border border-border bg-surface p-4">
+      <div
+        className="flex flex-col gap-1.5 rounded-xl border border-border bg-surface p-4 border-t-[3px]"
+        style={{ borderTopColor: "var(--cat-2)" }}
+      >
         <span className="text-xs font-semibold text-ink-2">
           Tempo médio do funil
         </span>
@@ -60,7 +69,7 @@ export function KpiRow({
         <span className="text-xs text-muted">solicitação → obra</span>
       </div>
 
-      <div className="flex flex-col gap-1.5 rounded-xl border p-4 border-warning/45">
+      <div className="flex flex-col gap-1.5 rounded-xl border border-t-[3px] p-4 border-warning/45 border-t-warning">
         <span className="text-xs font-semibold text-ink-2">
           Maior ponto de retenção
         </span>

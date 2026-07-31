@@ -16,6 +16,12 @@
   --warning: #fab219;
   --serious: #ec835a;
   --critical: #d03b3b;
+  --cat-1: var(--accent);
+  --cat-2: #f25c05;
+  --cat-3: #1baf7a;
+  --cat-4: #4a3aa7;
+  --cat-5: #e87ba4;
+  --cat-6: #eda100;
   color-scheme: light;
 }
 
@@ -36,6 +42,12 @@
     --warning: #f5b93e;
     --serious: #f0916b;
     --critical: #e66767;
+    --cat-1: var(--accent);
+    --cat-2: #f25c05;
+    --cat-3: #199e70;
+    --cat-4: #9085e9;
+    --cat-5: #d55181;
+    --cat-6: #c98500;
     color-scheme: dark;
   }
 }
@@ -56,6 +68,12 @@
   --warning: #f5b93e;
   --serious: #f0916b;
   --critical: #e66767;
+  --cat-1: var(--accent);
+  --cat-2: #f25c05;
+  --cat-3: #199e70;
+  --cat-4: #9085e9;
+  --cat-5: #d55181;
+  --cat-6: #c98500;
   color-scheme: dark;
 }
 
@@ -75,6 +93,12 @@
   --color-warning: var(--warning);
   --color-serious: var(--serious);
   --color-critical: var(--critical);
+  --color-cat-1: var(--cat-1);
+  --color-cat-2: var(--cat-2);
+  --color-cat-3: var(--cat-3);
+  --color-cat-4: var(--cat-4);
+  --color-cat-5: var(--cat-5);
+  --color-cat-6: var(--cat-6);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
