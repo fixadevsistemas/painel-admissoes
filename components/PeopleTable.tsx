@@ -8,6 +8,7 @@ import {
 } from "@/lib/stats";
 import { usePresentMode } from "@/lib/usePresentMode";
 import { PresentButton } from "./PresentButton";
+import { PresentNav } from "./PresentNav";
 import { AlojadoTag } from "./AlojadoTag";
 
 interface PeopleTableProps {
@@ -33,7 +34,8 @@ export function PeopleTable({
   onLimparEtapaFiltro,
   onSelect,
 }: PeopleTableProps) {
-  const { ref, presenting, toggle } = usePresentMode<HTMLDivElement>();
+  const { ref, presenting, toggle, next, prev, index, total } =
+    usePresentMode<HTMLDivElement>("colaboradores");
 
   return (
     <div
@@ -195,6 +197,9 @@ export function PeopleTable({
           </p>
         )}
       </div>
+      {presenting && (
+        <PresentNav index={index} total={total} onPrev={prev} onNext={next} />
+      )}
     </div>
   );
 }

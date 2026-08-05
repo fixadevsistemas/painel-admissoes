@@ -163,9 +163,13 @@ export default function Home() {
         />
 
         <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
-          <CategoryBars title="Por função" data={porFuncao} />
-          <CategoryBars title="Por setor" data={porSetor} />
-          <CategoryBars title="Por cidade da obra" data={porCidade} />
+          <CategoryBars title="Por função" data={porFuncao} sectionKey="funcao" />
+          <CategoryBars title="Por setor" data={porSetor} sectionKey="setor" />
+          <CategoryBars
+            title="Por cidade da obra"
+            data={porCidade}
+            sectionKey="cidade"
+          />
         </div>
 
         <PeopleTable

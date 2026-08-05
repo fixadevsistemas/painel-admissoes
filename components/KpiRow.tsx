@@ -3,6 +3,7 @@
 import type { Bottleneck } from "@/lib/stats";
 import { usePresentMode } from "@/lib/usePresentMode";
 import { PresentButton } from "./PresentButton";
+import { PresentNav } from "./PresentNav";
 
 interface KpiRowProps {
   emProcesso: number;
@@ -81,7 +82,8 @@ export function KpiRow({
   tempoMedio,
   bottleneck,
 }: KpiRowProps) {
-  const { ref, presenting, toggle } = usePresentMode<HTMLDivElement>();
+  const { ref, presenting, toggle, next, prev, index, total } =
+    usePresentMode<HTMLDivElement>("indicadores");
 
   return (
     <div
@@ -141,6 +143,9 @@ export function KpiRow({
           }
         />
       </div>
+      {presenting && (
+        <PresentNav index={index} total={total} onPrev={prev} onNext={next} />
+      )}
     </div>
   );
 }

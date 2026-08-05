@@ -4,6 +4,7 @@ import type { StageKey } from "@/lib/types";
 import type { FunnelStage } from "@/lib/stats";
 import { usePresentMode } from "@/lib/usePresentMode";
 import { PresentButton } from "./PresentButton";
+import { PresentNav } from "./PresentNav";
 
 interface FunnelChartProps {
   funnel: FunnelStage[];
@@ -19,7 +20,8 @@ export function FunnelChart({
   onStageClick,
 }: FunnelChartProps) {
   const max = Math.max(1, ...funnel.map((f) => f.count));
-  const { ref, presenting, toggle } = usePresentMode<HTMLDivElement>();
+  const { ref, presenting, toggle, next, prev, index, total } =
+    usePresentMode<HTMLDivElement>("distribuicao");
 
   return (
     <div
@@ -115,6 +117,9 @@ export function FunnelChart({
           );
         })}
       </div>
+      {presenting && (
+        <PresentNav index={index} total={total} onPrev={prev} onNext={next} />
+      )}
     </div>
   );
 }

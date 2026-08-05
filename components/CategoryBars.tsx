@@ -2,12 +2,15 @@
 
 import { useState } from "react";
 import { usePresentMode } from "@/lib/usePresentMode";
+import type { SectionKey } from "@/lib/presentationRegistry";
 import { PresentButton } from "./PresentButton";
+import { PresentNav } from "./PresentNav";
 
 interface CategoryBarsProps {
   title: string;
   data: { chave: string; total: number }[];
   limiteInicial?: number;
+  sectionKey: SectionKey;
 }
 
 const CORES = [
@@ -65,9 +68,11 @@ export function CategoryBars({
   title,
   data,
   limiteInicial = 8,
+  sectionKey,
 }: CategoryBarsProps) {
   const [expandido, setExpandido] = useState(false);
-  const { ref, presenting, toggle } = usePresentMode<HTMLDivElement>();
+  const { ref, presenting, toggle, next, prev, index, total: totalSecoes } =
+    usePresentMode<HTMLDivElement>(sectionKey);
   const max = data.reduce((m, d) => Math.max(m, d.total), 1);
   const limite = presenting ? Math.max(limiteInicial, 20) : limiteInicial;
   const temMais = data.length > limite;
@@ -131,6 +136,9 @@ export function CategoryBars({
         >
           {expandido ? "Mostrar menos" : `+ ${restantes} outras`}
         </button>
+      )}
+      {presenting && (
+        <PresentNav index={index} total={totalSecoes} onPrev={prev} onNext={next} />
       )}
     </div>
   );
