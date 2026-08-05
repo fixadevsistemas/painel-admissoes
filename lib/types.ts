@@ -40,6 +40,8 @@ export interface Colaborador {
   cidade: string;
   tipo: TipoMaoDeObra;
   telefone: string | null;
+  /** true = alojado pela empresa, false = local (já reside na cidade da obra) */
+  alojado: boolean;
   datas: Partial<Record<StageKey, Date>>;
   /** índice da última etapa com data preenchida, -1 se nenhuma */
   etapaAtualIdx: number;

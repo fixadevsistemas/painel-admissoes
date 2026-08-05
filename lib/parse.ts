@@ -20,6 +20,7 @@ type FieldKey =
   | "telefone"
   | "cidade"
   | "tipo"
+  | "alojado"
   | StageKey;
 
 /** Identifica a coluna certa mesmo que a ordem/redação da planilha varie um pouco. */
@@ -31,6 +32,7 @@ function matchColumn(header: string): FieldKey | null {
   if (h.includes("TELEFONE")) return "telefone";
   if (h === "CIDADE") return "cidade";
   if (h.includes("TIPO") && h.includes("MAO DE OBRA")) return "tipo";
+  if (h.includes("ALOJ")) return "alojado";
   if (h.includes("SOLICITACAO")) return "solicitacao";
   if (h.includes("ASSINATURA")) return "assinaturaRequisicao";
   if (h.includes("EXAME")) return "exames";
@@ -45,6 +47,10 @@ function matchColumn(header: string): FieldKey | null {
   if (h.includes("DISPONIVEL") || h.includes("DIPONIVEL"))
     return "disponivelObra";
   return null;
+}
+
+function isSim(value: unknown): boolean {
+  return normalizeHeader(value).startsWith("S");
 }
 
 function excelDateToJs(value: unknown): Date | null {
@@ -147,6 +153,7 @@ export async function parseWorkbook(file: File): Promise<ImportResult> {
       cidade: normalizeCidade(get("cidade")) || "Não informado",
       tipo: String(get("tipo") ?? "").trim().toUpperCase() || "Não informado",
       telefone: get("telefone") ? String(get("telefone")) : null,
+      alojado: isSim(get("alojado")),
       datas,
       etapaAtualIdx,
       concluido: etapaAtualIdx === STAGE_KEYS.length - 1,

@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { STAGE_KEYS, STAGE_LABELS, type Colaborador } from "@/lib/types";
 import { diasNaEtapaAtual, statusColaborador } from "@/lib/stats";
+import { AlojadoTag } from "./AlojadoTag";
 
 interface TimelinePanelProps {
   colaborador: Colaborador | null;
@@ -52,7 +53,10 @@ export function TimelinePanel({
           <>
             <div className="flex items-start justify-between gap-3 border-b border-border p-5">
               <div>
-                <p className="text-[17px] font-extrabold">{colaborador.nome}</p>
+                <span className="flex items-center gap-2">
+                  <p className="text-[17px] font-extrabold">{colaborador.nome}</p>
+                  {colaborador.alojado && <AlojadoTag />}
+                </span>
                 <p className="mt-1 text-xs text-ink-2">
                   {colaborador.funcao} · {colaborador.setor} / {colaborador.cidade} ·{" "}
                   {colaborador.tipo}

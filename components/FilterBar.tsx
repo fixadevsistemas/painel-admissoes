@@ -5,9 +5,12 @@ export interface FiltroState {
   funcao: string;
   cidade: string;
   tipo: string;
+  alojamento: string;
 }
 
 export const FILTRO_TODOS = "__todos__";
+
+const OPCOES_ALOJAMENTO = ["Alojado", "Local"];
 
 interface FilterBarProps {
   setores: string[];
@@ -99,6 +102,12 @@ export function FilterBar({
         value={filtro.tipo}
         options={tipos}
         onChange={(v) => onChange({ ...filtro, tipo: v })}
+      />
+      <Select
+        label="Alojamento"
+        value={filtro.alojamento}
+        options={OPCOES_ALOJAMENTO}
+        onChange={(v) => onChange({ ...filtro, alojamento: v })}
       />
       <label className="flex items-center gap-1.5 rounded-full border border-border bg-surface-2 px-3 py-1.5 text-[13px] text-ink-2">
         <span className="text-muted">Alerta de atenção após:</span>

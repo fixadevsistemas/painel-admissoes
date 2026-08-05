@@ -8,6 +8,7 @@ import {
 } from "@/lib/stats";
 import { usePresentMode } from "@/lib/usePresentMode";
 import { PresentButton } from "./PresentButton";
+import { AlojadoTag } from "./AlojadoTag";
 
 interface PeopleTableProps {
   colaboradores: Colaborador[];
@@ -121,7 +122,10 @@ export function PeopleTable({
                   className="cursor-pointer border-b border-border hover:bg-surface-2"
                 >
                   <td className={cellPad}>
-                    <span className="font-semibold">{c.nome}</span>
+                    <span className="inline-flex items-center gap-1.5">
+                      <span className="font-semibold">{c.nome}</span>
+                      {c.alojado && <AlojadoTag presenting={presenting} />}
+                    </span>
                     <span
                       className={`block text-muted ${
                         presenting ? "text-base" : "text-[11.5px]"

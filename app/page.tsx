@@ -32,6 +32,7 @@ const FILTRO_INICIAL: FiltroState = {
   funcao: FILTRO_TODOS,
   cidade: FILTRO_TODOS,
   tipo: FILTRO_TODOS,
+  alojamento: FILTRO_TODOS,
 };
 
 export default function Home() {
@@ -74,6 +75,10 @@ export default function Home() {
       if (filtro.funcao !== FILTRO_TODOS && c.funcao !== filtro.funcao) return false;
       if (filtro.cidade !== FILTRO_TODOS && c.cidade !== filtro.cidade) return false;
       if (filtro.tipo !== FILTRO_TODOS && c.tipo !== filtro.tipo) return false;
+      if (filtro.alojamento !== FILTRO_TODOS) {
+        const querAlojado = filtro.alojamento === "Alojado";
+        if (c.alojado !== querAlojado) return false;
+      }
       return true;
     });
   }, [colaboradores, filtro]);
