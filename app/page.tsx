@@ -9,6 +9,7 @@ import { CategoryBars } from "@/components/CategoryBars";
 import { PeopleTable } from "@/components/PeopleTable";
 import { TimelinePanel } from "@/components/TimelinePanel";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import Link from "next/link";
 import { parseWorkbook } from "@/lib/parse";
 import {
   STAGE_KEYS,
@@ -131,7 +132,15 @@ export default function Home() {
               liberação em campo
             </p>
           </div>
-          <ThemeToggle />
+          <div className="flex items-center gap-2">
+            <Link
+              href="/curriculos"
+              className="rounded-full border border-border bg-surface-2 px-3 py-1.5 text-xs font-semibold text-ink-2 hover:text-ink"
+            >
+              Avaliação de Currículos
+            </Link>
+            <ThemeToggle />
+          </div>
         </div>
 
         <FilterBar
