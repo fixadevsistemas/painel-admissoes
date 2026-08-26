@@ -21,6 +21,8 @@ type FieldKey =
   | "cidade"
   | "tipo"
   | "alojado"
+  | "observacao"
+  | "previsaoConclusao"
   | StageKey;
 
 /** Identifica a coluna certa mesmo que a ordem/redação da planilha varie um pouco. */
@@ -33,8 +35,10 @@ function matchColumn(header: string): FieldKey | null {
   if (h === "CIDADE") return "cidade";
   if (h.includes("TIPO") && h.includes("MAO DE OBRA")) return "tipo";
   if (h.includes("ALOJ")) return "alojado";
+  if (h.includes("PREVISAO")) return "previsaoConclusao";
   if (h.includes("SOLICITACAO")) return "solicitacao";
   if (h.includes("ASSINATURA")) return "assinaturaRequisicao";
+  if (h.includes("OBSERVACAO")) return "observacao";
   if (h.includes("EXAME")) return "exames";
   if (h.includes("ASO")) return "aso";
   if (h.includes("DOCUMENTACAO")) return "documentacao";
@@ -44,8 +48,6 @@ function matchColumn(header: string): FieldKey | null {
   if (h.includes("TREINAMENTO")) return "treinamentosQsms";
   if (h.includes("POSTAGEM")) return "postagemPlataforma";
   if (h.includes("LIBERACAO")) return "liberacaoCliente";
-  if (h.includes("DISPONIVEL") || h.includes("DIPONIVEL"))
-    return "disponivelObra";
   return null;
 }
 
@@ -145,6 +147,8 @@ export async function parseWorkbook(file: File): Promise<ImportResult> {
       }
     }
 
+    const observacaoRaw = get("observacao");
+
     colaboradores.push({
       id: `${r}-${String(nomeRaw).trim()}`,
       nome: normalizeNome(nomeRaw),
@@ -154,6 +158,8 @@ export async function parseWorkbook(file: File): Promise<ImportResult> {
       tipo: String(get("tipo") ?? "").trim().toUpperCase() || "Não informado",
       telefone: get("telefone") ? String(get("telefone")) : null,
       alojado: isSim(get("alojado")),
+      observacao: observacaoRaw ? String(observacaoRaw).trim() || null : null,
+      previsaoConclusao: excelDateToJs(get("previsaoConclusao")),
       datas,
       etapaAtualIdx,
       concluido: etapaAtualIdx === STAGE_KEYS.length - 1,

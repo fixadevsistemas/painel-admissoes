@@ -10,7 +10,6 @@ export const STAGE_KEYS = [
   "treinamentosQsms",
   "postagemPlataforma",
   "liberacaoCliente",
-  "disponivelObra",
 ] as const;
 
 export type StageKey = (typeof STAGE_KEYS)[number];
@@ -27,7 +26,6 @@ export const STAGE_LABELS: Record<StageKey, string> = {
   treinamentosQsms: "Treinamentos QSMS",
   postagemPlataforma: "Postagem plataforma cliente",
   liberacaoCliente: "Liberação cliente",
-  disponivelObra: "Disponível na obra",
 };
 
 export type TipoMaoDeObra = "DIRETA" | "INDIRETA" | string;
@@ -42,6 +40,9 @@ export interface Colaborador {
   telefone: string | null;
   /** true = alojado pela empresa, false = local (já reside na cidade da obra) */
   alojado: boolean;
+  observacao: string | null;
+  /** Data prevista para a conclusão do processo (previsão de início das atividades). */
+  previsaoConclusao: Date | null;
   datas: Partial<Record<StageKey, Date>>;
   /** índice da última etapa com data preenchida, -1 se nenhuma */
   etapaAtualIdx: number;

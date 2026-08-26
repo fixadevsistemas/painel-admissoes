@@ -21,7 +21,7 @@ interface PeopleTableProps {
 }
 
 const STATUS_LABEL: Record<string, string> = {
-  concluido: "Disponível na obra",
+  concluido: "Liberado para o cliente",
   atencao: "Requer atenção",
   andamento: "Em andamento",
 };
@@ -127,6 +127,15 @@ export function PeopleTable({
                     <span className="inline-flex items-center gap-1.5">
                       <span className="font-semibold">{c.nome}</span>
                       {c.alojado && <AlojadoTag presenting={presenting} />}
+                      {c.observacao && (
+                        <span
+                          title={c.observacao}
+                          aria-label={`Observação: ${c.observacao}`}
+                          className={`text-muted ${presenting ? "text-lg" : "text-xs"}`}
+                        >
+                          📝
+                        </span>
+                      )}
                     </span>
                     <span
                       className={`block text-muted ${

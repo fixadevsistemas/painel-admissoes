@@ -1,6 +1,6 @@
 "use client";
 
-import type { Bottleneck } from "@/lib/stats";
+import type { Bottleneck, PrevisaoResumo } from "@/lib/stats";
 import { usePresentMode } from "@/lib/usePresentMode";
 import { PresentButton } from "./PresentButton";
 import { PresentNav } from "./PresentNav";
@@ -11,6 +11,7 @@ interface KpiRowProps {
   atencao: number;
   tempoMedio: number | null;
   bottleneck: Bottleneck | null;
+  previsao: PrevisaoResumo;
 }
 
 function Card({
@@ -81,9 +82,16 @@ export function KpiRow({
   atencao,
   tempoMedio,
   bottleneck,
+  previsao,
 }: KpiRowProps) {
   const { ref, presenting, toggle, next, prev, index, total } =
     usePresentMode<HTMLDivElement>("indicadores");
+
+  const concluidosComPrevisao = previsao.noPrazo + previsao.atrasados;
+  const percentualNoPrazo =
+    concluidosComPrevisao > 0
+      ? Math.round((previsao.noPrazo / concluidosComPrevisao) * 100)
+      : null;
 
   return (
     <div
@@ -98,7 +106,7 @@ export function KpiRow({
       </div>
 
       <div
-        className={`grid grid-cols-2 gap-3 md:grid-cols-4 ${
+        className={`grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-5 ${
           presenting ? "flex-1 gap-6" : ""
         }`}
       >
@@ -117,7 +125,7 @@ export function KpiRow({
         <Card
           presenting={presenting}
           accentVar="var(--good)"
-          label="Disponíveis na obra"
+          label="Liberados para o cliente"
           value={concluidos}
           unit="pessoas"
           foot="funil completo"
@@ -128,7 +136,23 @@ export function KpiRow({
           label="Tempo médio do funil"
           value={tempoMedio ?? "—"}
           unit={tempoMedio !== null ? "dias" : undefined}
-          foot="solicitação → obra"
+          foot="solicitação → liberação"
+        />
+        <Card
+          presenting={presenting}
+          warning={previsao.emRisco > 0}
+          label="No prazo (previsão)"
+          value={percentualNoPrazo !== null ? percentualNoPrazo : "—"}
+          unit={percentualNoPrazo !== null ? "%" : undefined}
+          foot={
+            previsao.comPrevisao === 0
+              ? "sem previsão informada"
+              : previsao.emRisco > 0
+                ? `${previsao.emRisco} em risco de atraso`
+                : previsao.atrasados > 0
+                  ? `${previsao.atrasados} concluído(s) com atraso`
+                  : "nenhum em risco"
+          }
         />
         <Card
           presenting={presenting}

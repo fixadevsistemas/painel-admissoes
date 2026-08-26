@@ -106,15 +106,58 @@ export function contagemPor(
 
 export function tempoMedioFunilCompleto(colaboradores: Colaborador[]): number | null {
   const concluidos = colaboradores.filter(
-    (c) => c.concluido && c.datas.solicitacao && c.datas.disponivelObra
+    (c) => c.concluido && c.datas.solicitacao && c.datas.liberacaoCliente
   );
   if (!concluidos.length) return null;
   const total = concluidos.reduce(
     (sum, c) =>
-      sum + diasEntre(new Date(c.datas.solicitacao!), new Date(c.datas.disponivelObra!)),
+      sum + diasEntre(new Date(c.datas.solicitacao!), new Date(c.datas.liberacaoCliente!)),
     0
   );
   return Math.round(total / concluidos.length);
+}
+
+export interface PrevisaoResumo {
+  /** Quantos colaboradores têm a data de previsão preenchida. */
+  comPrevisao: number;
+  /** Concluídos (liberação cliente) até a data prevista, inclusive. */
+  noPrazo: number;
+  /** Concluídos após a data prevista. */
+  atrasados: number;
+  /** Ainda em andamento, com a previsão já vencida. */
+  emRisco: number;
+  /** Média de dias entre a previsão e a liberação real (positivo = atraso), só entre os concluídos com previsão. */
+  desvioMedioDias: number | null;
+}
+
+/** Compara a data prevista de conclusão do processo com a liberação real do cliente. */
+export function resumoPrevisao(
+  colaboradores: Colaborador[],
+  hoje: Date
+): PrevisaoResumo {
+  const comPrevisao = colaboradores.filter((c) => c.previsaoConclusao);
+  let noPrazo = 0;
+  let atrasados = 0;
+  let emRisco = 0;
+  const desvios: number[] = [];
+
+  comPrevisao.forEach((c) => {
+    const previsao = c.previsaoConclusao!;
+    if (c.concluido && c.datas.liberacaoCliente) {
+      const desvio = diasEntre(new Date(previsao), new Date(c.datas.liberacaoCliente));
+      desvios.push(desvio);
+      if (desvio <= 0) noPrazo++;
+      else atrasados++;
+    } else if (!c.concluido && diasEntre(new Date(previsao), new Date(hoje)) > 0) {
+      emRisco++;
+    }
+  });
+
+  const desvioMedioDias = desvios.length
+    ? Math.round(desvios.reduce((sum, d) => sum + d, 0) / desvios.length)
+    : null;
+
+  return { comPrevisao: comPrevisao.length, noPrazo, atrasados, emRisco, desvioMedioDias };
 }
 
 export function uniqueValues(

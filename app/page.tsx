@@ -23,6 +23,7 @@ import {
   buildFunnel,
   contagemPor,
   DIAS_ATENCAO,
+  resumoPrevisao,
   statusColaborador,
   tempoMedioFunilCompleto,
   uniqueValues,
@@ -90,6 +91,7 @@ export default function Home() {
     [filtrados, hoje, limiarAtencao]
   );
   const tempoMedio = useMemo(() => tempoMedioFunilCompleto(filtrados), [filtrados]);
+  const previsao = useMemo(() => resumoPrevisao(filtrados, hoje), [filtrados, hoje]);
   const concluidos = filtrados.filter((c) => c.concluido).length;
   const atencao = filtrados.filter(
     (c) => statusColaborador(c, hoje, limiarAtencao) === "atencao"
@@ -162,6 +164,7 @@ export default function Home() {
           atencao={atencao}
           tempoMedio={tempoMedio}
           bottleneck={bottleneck}
+          previsao={previsao}
         />
 
         <FunnelChart

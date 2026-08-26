@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { STAGE_KEYS, STAGE_LABELS, type Colaborador } from "@/lib/types";
-import { diasNaEtapaAtual, statusColaborador } from "@/lib/stats";
+import { diasEntre, diasNaEtapaAtual, statusColaborador } from "@/lib/stats";
 import { AlojadoTag } from "./AlojadoTag";
 
 interface TimelinePanelProps {
@@ -35,6 +35,13 @@ export function TimelinePanel({
     : null;
   const diasEtapa = colaborador ? diasNaEtapaAtual(colaborador, hoje) : null;
 
+  const previsao = colaborador?.previsaoConclusao ?? null;
+  const dataLiberacao = colaborador?.datas.liberacaoCliente ?? null;
+  const desvioPrevisao =
+    previsao && dataLiberacao ? diasEntre(new Date(previsao), new Date(dataLiberacao)) : null;
+  const diasParaPrevisao =
+    previsao && !dataLiberacao ? diasEntre(new Date(hoje), new Date(previsao)) : null;
+
   return (
     <>
       <div
@@ -66,6 +73,35 @@ export function TimelinePanel({
                     ? `Tel: ${colaborador.telefone}`
                     : "Telefone não informado"}
                 </p>
+                {previsao && (
+                  <p className="mt-1 text-xs text-muted">
+                    Previsão de conclusão: {fmt.format(previsao)}
+                    {desvioPrevisao !== null && (
+                      <span
+                        className={`ml-1 font-semibold ${
+                          desvioPrevisao <= 0 ? "text-good" : "text-warning"
+                        }`}
+                      >
+                        {desvioPrevisao <= 0
+                          ? desvioPrevisao === 0
+                            ? "— concluído no prazo"
+                            : `— concluído ${Math.abs(desvioPrevisao)}d antes`
+                          : `— concluído com ${desvioPrevisao}d de atraso`}
+                      </span>
+                    )}
+                    {diasParaPrevisao !== null && (
+                      <span
+                        className={`ml-1 font-semibold ${
+                          diasParaPrevisao < 0 ? "text-warning" : "text-muted"
+                        }`}
+                      >
+                        {diasParaPrevisao < 0
+                          ? `— ${Math.abs(diasParaPrevisao)}d em atraso`
+                          : `— faltam ${diasParaPrevisao}d`}
+                      </span>
+                    )}
+                  </p>
+                )}
               </div>
               <button
                 type="button"
@@ -78,6 +114,14 @@ export function TimelinePanel({
             </div>
 
             <div className="flex-1 overflow-y-auto p-5">
+              {colaborador.observacao && (
+                <div className="mb-4 rounded-lg border border-border-strong bg-surface-2 p-3">
+                  <p className="mb-1 text-[11px] font-bold uppercase tracking-[0.08em] text-muted">
+                    Observação
+                  </p>
+                  <p className="text-[13px] text-ink-2">{colaborador.observacao}</p>
+                </div>
+              )}
               <p className="mb-3.5 text-[11px] font-bold uppercase tracking-[0.08em] text-muted">
                 Linha do tempo do processo
               </p>
