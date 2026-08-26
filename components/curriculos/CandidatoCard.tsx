@@ -7,6 +7,32 @@ function corPontuacao(pontuacao: number): { cor: string; rotulo: string } {
   return { cor: "var(--critical)", rotulo: "Baixa aderência" };
 }
 
+function iniciais(nome: string): string {
+  const partes = nome.trim().split(/\s+/).filter(Boolean);
+  if (partes.length === 0) return "?";
+  const primeira = partes[0][0] ?? "";
+  const ultima = partes.length > 1 ? partes[partes.length - 1][0] ?? "" : "";
+  return (primeira + ultima).toUpperCase();
+}
+
+function FotoCandidato({ foto, nome }: { foto: string | null; nome: string }) {
+  if (foto) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element -- data URL gerada no navegador, não passa por otimização de imagem do Next
+      <img
+        src={foto}
+        alt={`Foto de ${nome}`}
+        className="h-11 w-11 flex-none rounded-full border border-border-strong object-cover"
+      />
+    );
+  }
+  return (
+    <span className="flex h-11 w-11 flex-none items-center justify-center rounded-full border border-border-strong bg-surface-2 text-xs font-bold text-muted">
+      {iniciais(nome)}
+    </span>
+  );
+}
+
 function IconeWhatsapp() {
   return (
     <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
@@ -30,18 +56,21 @@ export function CandidatoCard({
   return (
     <div className="rounded-xl border border-border bg-surface p-4">
       <div className="mb-2 flex flex-wrap items-start justify-between gap-2">
-        <div>
-          <div className="flex items-center gap-2">
-            <p className="font-semibold">{candidato.nome}</p>
-            {melhorColocado && (
-              <span className="inline-flex items-center gap-1 rounded-full bg-accent-wash px-2 py-0.5 text-[10.5px] font-bold text-accent">
-                ★ Melhor colocado
-              </span>
-            )}
+        <div className="flex items-start gap-3">
+          <FotoCandidato foto={candidato.foto} nome={candidato.nome} />
+          <div>
+            <div className="flex items-center gap-2">
+              <p className="font-semibold">{candidato.nome}</p>
+              {melhorColocado && (
+                <span className="inline-flex items-center gap-1 rounded-full bg-accent-wash px-2 py-0.5 text-[10.5px] font-bold text-accent">
+                  ★ Melhor colocado
+                </span>
+              )}
+            </div>
+            <p className="text-xs text-muted">
+              {candidato.municipio} · {candidato.arquivoNome}
+            </p>
           </div>
-          <p className="text-xs text-muted">
-            {candidato.municipio} · {candidato.arquivoNome}
-          </p>
         </div>
         <span className="text-lg font-extrabold tabular-nums" style={{ color: cor }}>
           {candidato.pontuacao}

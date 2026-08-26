@@ -1,4 +1,4 @@
-import { extrairTextoPdf } from "./pdfText";
+import { extrairFotoPdf, extrairTextoPdf } from "./pdfText";
 import { analisarTelefone } from "./telefone";
 import type { AnaliseCurriculo } from "./curriculoTypes";
 
@@ -277,6 +277,8 @@ export async function analisarCurriculoLocal(file: File): Promise<AnaliseCurricu
     funcao !== "Não identificada"
   );
 
+  const foto = await extrairFotoPdf(file).catch(() => null);
+
   return {
     nome,
     funcao,
@@ -286,5 +288,6 @@ export async function analisarCurriculoLocal(file: File): Promise<AnaliseCurricu
     observacao,
     funcoesSecundarias,
     competencias,
+    foto,
   };
 }

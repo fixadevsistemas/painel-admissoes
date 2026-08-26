@@ -42,6 +42,11 @@ export const AnaliseCurriculoSchema = z.object({
     .describe(
       "Certificações e competências identificadas (ex: NR-18, CNH categoria B)"
     ),
+  foto: z
+    .string()
+    .nullable()
+    .default(null)
+    .describe("Foto do candidato extraída do PDF, como data URL. Null se o currículo não tiver foto."),
 });
 
 export type AnaliseCurriculo = z.infer<typeof AnaliseCurriculoSchema>;
